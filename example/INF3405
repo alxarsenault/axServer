@@ -1,0 +1,34 @@
+INF3405
+
+ete 2008
+
+Question 1:
+
+1. masque 28:
+
+132.207.67.13 et 132.207.67.63
+
+Masque 28 veut
+
+13 = 00001101 et 63 = 00011111
+
+132  207  67  13
+ 8    8   8   8
+
+ donc faux
+
+ 2. faux 
+
+Arp -> donne adresse MAC
+
+3. TCP ne transporte pas la voix
+
+4. RTP = real time sont dans UDP.
+
+5. BGP (pas dans le cours)
+
+6. CSMA-CD dans reseau sans fil : les deux machine ne se voit pas mais voit le seveur.
+
+7. Vrai
+
+8. Faux.

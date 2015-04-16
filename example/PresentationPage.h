@@ -20,6 +20,18 @@ private:
     axEVENT_ACCESSOR(OnIndexPage);
     void OnIndexPage(const http::server::request& req,
                      http::server::reply& rep);
+
+
+    axEVENT_ACCESSOR(OnAddPage);
+    void OnAddPage(const http::server::request& req,
+                    http::server::reply& rep);
+
+    axEVENT_ACCESSOR(OnSearch);
+    void OnSearch(const http::server::request& req,
+                  http::server::reply& rep);
+
+
+    std::string _searchString;
 };
 
 #endif /* defined(__HttpServer__PresentationPage__) */

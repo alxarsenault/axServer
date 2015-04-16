@@ -20,16 +20,20 @@
 int main(int argc, char* argv[])
 {
     
-    axPython python;
+    axPython python(argc, argv);
     
     // python.InsertFolder(".");
     // python.InsertFolder("/Library/Python/2.7/site-packages/googleapiclient/");
     // python.InsertFolder("/Library/Python/2.7/site-packages/oauth2client/");
-    python.InsertFolder("/Library/Frameworks/Python.framework/Versions/2.7/site-packages");
+    
+    python.InsertFolder("/Library/Python/2.7/site-packages/");
+    python.InsertFolder("/Library/Python/2.7/");
     python.LoadModule("ttt");
     
     std::vector<std::string> args;
     std::string answer = python.CallFunction("StringTest", args);
+
+    std::cout << answer << std::endl;
 
     return 0;
 }

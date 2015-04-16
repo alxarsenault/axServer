@@ -44,7 +44,7 @@ namespace http
         
         void request_handler::handle_request(const request& req, reply& rep)
         {
-            
+            std::cout << "request_handler::handle_request" << std::endl;
             // Decode url to path.
             std::string request_path;
             
@@ -78,95 +78,8 @@ namespace http
             {
                 request_path += "index.html";
             }
-//
+
             RequestCallback(request_path, req, rep);
-//            std::cout << request_path << std::endl;
-//            
-//            std::string request_keyword =
-//            request_path.substr(0, request_path.find_last_of("."));
-//            
-//            if(request_keyword == "/navigator")
-//            {
-//                //std::cout << "TEST" << std::endl;
-//                
-//                
-//                std::vector<std::string> elems;
-//                boost::filesystem::path someDir("/Users/alexarse/");
-//                
-//                if(is_directory(someDir))
-//                {
-//                    for(auto& entry : boost::make_iterator_range(boost::filesystem::directory_iterator(someDir), {}))
-//                    {
-//                        elems.push_back(entry.path().leaf().string());
-//                    }
-//                }
-//                
-//                axHtmlPage page;
-//                page.Begin();
-//                
-//                axHtmlPanel list_panel(someDir.string());
-//    
-//                list_panel.Begin();
-//                
-//                axHtmlList html_list(elems);
-//                list_panel.AddElement(&html_list);
-//                
-//                list_panel.End();
-//                
-//                page.AddElement(&list_panel);
-//                
-//                
-//                axHtmlPanel test_panel("Panel");
-//                test_panel.Begin();
-//                test_panel.Add("<form action=\"MyAction\" method=\"post\">");
-//                test_panel.Add("<button type=\"submit\" name=\"my_button_test\"  class=\"btn btn-default\" value=\"my_button_value\">Left</button>");
-//                test_panel.Add("</form>");
-//                test_panel.End();
-//                
-//                page.AddElement(&test_panel);
-//                
-//                page.End();
-//                
-//                rep.Setup(reply::ok, page.GetHtmlPage(), "html");
-//            }
-//            else if(request_path == "/MyAction")
-//            {
-//                std::cout << "MyAction" << std::endl;
-//            }
-//            else
-//            {
-//                // Determine the file extension.
-//                std::string extension = GetFileExtension(request_path);
-//                
-//                // Open the file to send back.
-//                std::string full_path = doc_root_ + request_path;
-//                
-//                std::ifstream is(full_path.c_str(),
-//                                 std::ios::in | std::ios::binary);
-//                
-//                if (!is)
-//                {
-//                    rep = reply::stock_reply(reply::not_found);
-//                    return;
-//                }
-//                
-//                // Fill out the reply to be sent to the client.
-//                rep.status = reply::ok;
-//                
-//                char buf[512];
-//                
-//                while (is.read(buf, sizeof(buf)).gcount() > 0)
-//                {
-//                    rep.content.append(buf, is.gcount());
-//                }
-//                
-//                rep.headers.resize(2);
-//                rep.headers[0].name = "Content-Length";
-//                rep.headers[0].value = std::to_string(rep.content.size());
-//                rep.headers[1].name = "Content-Type";
-//                rep.headers[1].value = mime_types::extension_to_type(extension);
-//            }
-            
         }
         
         void request_handler::RequestCallback(const std::string& url,

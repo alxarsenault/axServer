@@ -22,7 +22,7 @@
 class axPython
 {
 public :
-    axPython();
+    axPython(int argc, char* argv[]);
     
     ~axPython();
 

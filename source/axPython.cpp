@@ -8,21 +8,26 @@
 
 #include "axPython.h"
 
-//class axPython
-//{
-//public :
-axPython::axPython()
+axPython::axPython(int argc, char* argv[])
 {
-    std::cout << "axPython." << std::endl;
-    Py_SetProgramName("axServer");  /* optional but recommended */
-
-    //char pySearchPath[] = "/Library/Frameworks/Python.framework/Versions/2.7/";///site-packages";
-    //Py_SetPythonHome(pySearchPath);
+    // std::cout << "axPython." << std::endl;
+    Py_SetProgramName(argv[0]);  /* optional but recommended */
 
     Py_Initialize();
+    PySys_SetArgv(argc, argv); // must call this to get sys.argv and relative imports
+
+
+    // /usr/lib/libpython2.7.dylib
+
+    // char pySearchPath[] = "/usr/bin/python2.7";
+    //char pySearchPath[] = "/usr/lib/libpython2.7.dylib";
+    // char pySearchPath[] = "/Library/Python/2.7/";///site-packages";
+    // Py_SetPythonHome(pySearchPath);
+
+    
     InsertCurrentAppDirectory();
 
-     std::cerr << "PATH" << Py_GetPath() << std::endl;
+     // std::cerr << "PATH" << Py_GetPath() << std::endl;
 }
 
 axPython::~axPython()
@@ -52,19 +57,37 @@ void axPython::InsertFolder(const std::string& folder_path)
 
 void axPython::LoadModule(const std::string& module_name)
 {
-    PyObject* myModuleString = PyString_FromString((char*)module_name.c_str());
-    _module = PyImport_Import(myModuleString);
+    PyObject* moduleString = PyString_FromString((char*)module_name.c_str());
+    _module = PyImport_Import(moduleString);
+    Py_DECREF(moduleString);
+
+    if(_module == nullptr)
+    {
+        std::cerr << "ERROR : " << std::endl;
+        PyErr_Print();
+        exit(1);
+    }
 }
 
 std::string axPython::CallFunction(const std::string& fct_name, const std::vector<std::string>& args)
 {
-
-    
     PyObject* myFunction = PyObject_GetAttrString(_module, (char*)fct_name.c_str());
     
-    //PyObject* args = PyTuple_Pack(2, PyFloat_FromDouble(6.0), PyFloat_FromDouble(2.0));
-    PyObject* fct_args = NULL;
-    PyObject* myResult = PyObject_CallObject(myFunction, fct_args);
+    //PyObject* fctArg = PyObject_GetAttrString(_module, (char*)fct_name.c_str());
+
+    // PyObject* fct_args = NULL;
+
+    // if(args.size())
+    // {
+    //     std::cout << "Add argument" << std::endl;
+    //     fct_args = PyObject_GetAttrString(_module, (char*)args[0].c_str());
+    // }
+
+    // PyObject* tuple_args = PyTuple_Pack(1, fct_args);
+    PyObject* pArgs = PyTuple_New(1);
+    PyTuple_SetItem(pArgs, 0, PyString_FromString(args[0].c_str()));
+    
+    PyObject* myResult = PyObject_CallObject(myFunction, pArgs);
     PyObject* objectsRepresentation = PyObject_Repr(myResult);
     const char* s = PyString_AsString(objectsRepresentation);
     
